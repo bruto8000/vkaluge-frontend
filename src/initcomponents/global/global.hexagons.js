@@ -1,6 +1,10 @@
 /*---------------------------
     USER AVATAR HEXAGONS
 ---------------------------*/
+
+import Vue from 'vue'
+import app from '../utils/app.js'
+Vue.prototype.$initGlobalHexagons = () =>{
 app.plugins.createHexagon({
   container: '.hexagon-148-164',
   width: 148,
@@ -329,3 +333,4 @@ app.plugins.createHexagon({
   lineColor: 'rgba(97, 93, 250, .9)',
   fill: true
 });
+}

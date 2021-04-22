@@ -147,14 +147,20 @@
             <div class="form-item">
               <!-- BUTTON -->
 
-              <button class="button medium secondary" :disabled="!canLogin">
+              <button
+                @click="requestLogin"
+                class="button medium secondary"
+                :disabled="!canLogin"
+              >
                 Войти
               </button>
               <!-- /BUTTON -->
             </div>
+
             <!-- /FORM ITEM -->
           </div>
           <!-- /FORM ROW -->
+        
         </form>
         <!-- /FORM -->
 
@@ -234,6 +240,7 @@
                 <input
                   :disabled="register.sms_sended"
                   v-model="register.username"
+                  placeholder="89001234567"
                   type="text"
                   id="register-email"
                   name="register_email"
@@ -253,6 +260,7 @@
               <div class="form-input">
                 <label for="register-password">Пароль :</label>
                 <input
+                pattern=""
                   v-model="register.password"
                   :disabled="register.sms_sended"
                   type="password"
@@ -336,10 +344,10 @@
           <!-- /FORM ROW -->
 
           <!-- FORM TEXT -->
-          <p class="form-text" v-if="!register.sms_sended">
+          <p class="form-text text-center " v-if="!register.sms_sended">
             Вы получите sms сообщение c кодом подтверждения.
           </p>
-          <p class="form-text" v-if="register.number_is_already">
+          <p class="form-text text-center " v-if="register.number_is_already">
             Номер уже зарегестрирован в системе, попробуйте войти
           </p>
           <!-- /FORM TEXT -->
@@ -367,11 +375,16 @@
                 </div>
 
                 <div class="form-input">
-                  <p class="form-text">Время: {{ register.timer_sec }}сек.</p>
+                  <p class="form-text text-center ">
+                    Время: {{ register.timer_sec }}сек.
+                  </p>
                 </div>
-                  <p class="form-text" v-if="register.smsCodeInvalid">
-           Смс код указан неверно, попробуйте еще раз.
-          </p>
+                <p
+                  class="form-text text-center "
+                  v-if="register.smsCodeInvalid"
+                >
+                  Смс код указан неверно, попробуйте еще раз.
+                </p>
                 <!-- /FORM INPUT -->
               </div>
               <!-- /FORM ITEM -->
@@ -396,10 +409,6 @@
             </div>
 
             <!-- /FORM ROW -->
-            <div v-if="register.sms_sended">
-              <form-utils></form-utils>
-            </div>
-            <!-- BUG!!! -->
           </template>
         </form>
         <!-- /FORM -->
@@ -407,33 +416,40 @@
       <!-- /FORM BOX -->
     </div>
     <!-- /LANDING FORM -->
-    <div v-show="false">
-      <form-utils></form-utils>
-      <landing-tabs></landing-tabs>
-      <svg-loader></svg-loader>
-    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
- 
+
 export default {
   name: "auth",
+
+  mounted() {
+  
+   
+
+       this.$initForms();
+    this.$initLanding();
+
+
+
+  },
   data() {
     return {
-      API_URL: 'https://localhost:44363',
       number_regex: /8\d{10}$/,
       password_regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
       login: {
         username: "",
         password: "",
         remember: false,
+        invalidCredentials: false,
+        invalidCredentials_timout: false,
       },
       register: {
-        username: "89208868912",
-        password: "Aa123$",
-        re_password: "Aa123$",
+        username: "",
+        password: "",
+        re_password: "",
         accept_rules: false,
         sms_code: "",
         sms_sended: false,
@@ -474,38 +490,42 @@ export default {
   },
   methods: {
     async requestSms(event) {
+      console.log(this.$url + "/api/Account/Register");
       event.preventDefault();
-      this.hidePhoneError();
+
       let respFromServ = null;
 
-      try {
-        respFromServ = await axios({
-          method: "POST",
-          url: API_URL +"/api/Account/Register",
-          data: {
-            phoneNumber: this.register.username,
-            year: 20,
-            password: this.register.password,
-            passwordConfirm: this.register.re_password,
-          },
-        });
-      } catch (err) {
-        console.log(err.message);
-        console.log(err.message.slice(-3));
-        if (err.message.slice(-3) == 400) {
-          this.showPhoneError();
-        }
-        console.log("ERROR REQUEST SMS", err.message);
-        return;
-      }
+      await axios({
+        method: "POST",
+        url: this.$url + "/api/Account/Register",
+        data: {
+          phoneNumber: this.register.username,
+          year: 20,
+          password: this.register.password,
+          passwordConfirm: this.register.re_password,
+        },
+      }).then(
+        (responce) => {
+          console.log("Успех", responce);
 
-      console.log(respFromServ);
-      if (respFromServ.status == 200) {
-        this.register.sms_sended = true;
-        this.setSmsCodeWaitingIntervel();
-      }
+          this.register.sms_sended = true;
+          this.setSmsCodeWaitingIntervel();
+        },
+        (err) => {
+          console.log(err.response);
+      
+            this.$toast.open({
+        message: err.response.data.title,
+    type: 'error'
+
+
+    }) 
+        }
+      );
+      return;
     },
     setSmsCodeWaitingIntervel() {
+      this.$nextTick(() => this.$initForms());
       this.register.timer_sec = 59;
       this.register.timer = setInterval(() => {
         this.register.timer_sec--;
@@ -516,106 +536,72 @@ export default {
       }, 1000);
     },
     async confirmSms(event) {
-      this.hideSmsCodeError();
+      
+      event.preventDefault();
+      console.log(this.$url + "/api/Account/Register");
+      console.log("Отправляемые данные: ", {
+        smsCode: this.register.sms_code,
+        year: 20,
+        login: this.register.username,
+        password: this.register.password,
+      });
+
+      await axios({
+        method: "POST",
+        url: this.$url + "/api/Account/Verificate",
+        data: {
+          smsCode: Number(this.register.sms_code),
+          year: 20,
+          login: this.register.username,
+          password: this.register.password,
+        },
+      })
+        .then(() => {
+          alert("Регистрация успешна!");
+        })
+        .catch((err) => {
+          this.$toast.error('Неверный код подтверждения')
+          console.log("ERROR CONFIRM SMS", err.message);
+
+
+        });
+
+      return;
+    },
+
+    async requestLogin(event) {
+      console.log(this.$url + "/api/Account/Login");
       event.preventDefault();
 
-      let respFromServ = null;
 
-      try {
-        // {
-        //   "smsCode": 0,
-        //   "year": 0,
-        //   "login": "string",
-        //   "password": "string"
+
+ 
+        //         {
+        //   "phoneNumber": "string",
+        //   "password": "string",
+        //   "rememberMe": true,
+        //   "returnUrl": "string"
         // }
-
-        respFromServ = await axios({
+   await axios({
           method: "POST",
-          url: API_URL + "/api/Account/Verificate",
+          url: this.$url + "/api/Account/Login",
           data: {
-            login: this.register.username,
-            smsCode: this.register.sms_code,
+            phoneNumber: this.login.username,
             year: 20,
-            password: this.register.password,
+            password: this.login.password,
+            rememberMe: this.login.remember,
+            returnUrl: "",
           },
+        }).then(result=>{
+          console.log(result.data);
+             alert("Вход успешный!");
+        }).catch(err=>{
+          this.$toast.error('Неверные данные')
         });
-      } catch (err) {
-        console.log("ERROR CONFIRM SMS", err.message);
+      
 
-this.showSmsCodeError();
-
-        return;
-      }
-
-      console.log(respFromServ);
-      if (respFromServ.status == 200) {
-        alert("Регистрация успешна!");
-      }
-    },
-    showPhoneError() {
-      console.log("showing error");
-      this.register.number_is_already = true;
-      this.hidePhoneError(5000);
-    },
-    hidePhoneError(ms = 0) {
-      console.log("hidding eror");
-      clearTimeout(this.register.number_is_already_timeout);
-      if (ms == 0) {
-        this.register.number_is_already = false;
-        return;
-      }
-      console.log("hidding error");
-      this.register.number_is_already_timeout = setTimeout(() => {
-        this.register.number_is_already = false;
-      }, ms);
-    },
-    showSmsCodeError(){
- console.log("showing error SMS");
-      this.register.smsCodeInvalid = true;
-      this.hideSmsCodeError(5000);
-    },
-    hideSmsCodeError(ms = 0) {
-      console.log("hidding eror");
-      clearTimeout(this.register.smsCodeInvalid_timeout);
-      if (ms == 0) {
-        this.register.smsCodeInvalid = false;
-        return;
-      }
-      console.log("hidding error");
-      this.register.smsCodeInvalid_timeout = setTimeout(() => {
-        this.register.smsCodeInvalid = false;
-      }, ms);
-    },
-   async requestLogin(){
-       let respFromServ = null;
-
-      try {
-        respFromServ = await axios({
-          method: "POST",
-          url: this.API_URL + "/api/Account/Login",
-          data: {
-            phoneNumber: this.register.username,
-            year: 20,
-            password: this.register.password,
-            passwordConfirm: this.register.re_password,
-          },
-        });
-      } catch (err) {
-        console.log(err.message);
-        console.log(err.message.slice(-3));
-        if (err.message.slice(-3) == 400) {
-          this.showPhoneError();
-        }
-        console.log("ERROR REQUEST SMS", err.message);
-        return;
-      }
-
-      console.log(respFromServ);
-      if (respFromServ.status == 200) {
-        this.register.sms_sended = true;
-        this.setSmsCodeWaitingIntervel();
-      }
     }
-  },
+ 
+  }
 };
 </script>

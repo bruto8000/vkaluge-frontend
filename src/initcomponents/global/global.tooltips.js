@@ -1,6 +1,12 @@
 /*----------------
     TOOLTIPS 
 ----------------*/
+import Vue from 'vue'
+import app from '../utils/app.js'
+Vue.prototype.$initGlobalTooltips = () =>{
+
+
+
 app.plugins.createTooltip({
   container: '.text-tooltip-tfr',
   offset: 4,
@@ -27,3 +33,4 @@ app.plugins.createTooltip({
     type: 'translate-out-fade'
   }
 });
+}

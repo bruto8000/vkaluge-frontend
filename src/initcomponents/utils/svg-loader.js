@@ -1,6 +1,5 @@
-import Vue from 'vue'
-Vue.component('svg-loader', {
-  mounted(){
+
+
     const svgWrap = document.createElement('div'),
       svgData = `
   <!-- SVG FACEBOOK -->
@@ -750,7 +749,6 @@ Vue.component('svg-loader', {
 
 svgWrap.innerHTML = svgData;
 document.body.appendChild(svgWrap);
-  }
-,
-template: '<div></div>'
-})
+  
+
+

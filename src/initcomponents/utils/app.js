@@ -1,14 +1,8 @@
-import '../vendor/Chart.bundle.min.js'
-import '../vendor/simplebar.min.js'
-import '../vendor/tiny-slider.min.js'
-import '../vendor/xm_accordion.min.js'
-import '../vendor/xm_dropdown.min.js'
-import '../vendor/xm_hexagon.min.js'
-import '../vendor/xm_plugins.min.js'
-import '../vendor/xm_popup.min.js'
-import '../vendor/xm_progressBar.min.js'
+
+import XM_Dropdown from '../vendor/xm_dropdown.min.js'
+import XM_Hexagon from '../vendor/xm_hexagon.min.js'
 import XM_Tab from '../vendor/xm_tab.min.js'
-import '../vendor/xm_tooltip.min.js'
+
 
 const app = {
   deepExtend: function (a, b) {

@@ -1,7 +1,12 @@
 import Vue from "vue"
 import app from "../utils/app.js"
-Vue.component('landing-tabs',{
-    mounted(){
+
+
+
+Vue.prototype.$initLanding = () =>{
+
+
+
       app.plugins.createTab({
     triggers: '.login-register-form-trigger',
     elements: '.login-register-form-element',
@@ -14,6 +19,4 @@ Vue.component('landing-tabs',{
       firstInput.focus();
     }
   });
-    },
-    template: "<div></div>"
-  })
+}

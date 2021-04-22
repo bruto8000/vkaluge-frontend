@@ -1,9 +1,17 @@
-app.querySelector('.page-loader', function (el) {
-  const pageLoader = el[0];
+import Vue from 'vue'
 
-  const hidePageLoader = function () {
-    pageLoader.classList.add('hidden');
-  };
+Vue.prototype.$initPageLoader = () =>{
+
+
+  app.querySelector('.page-loader', function (el) {
+    const pageLoader = el[0];
   
-  window.addEventListener('load', hidePageLoader);
-});
+    const hidePageLoader = function () {
+      pageLoader.classList.add('hidden');
+    };
+    
+    window.addEventListener('load', hidePageLoader);
+  });
+
+}
+

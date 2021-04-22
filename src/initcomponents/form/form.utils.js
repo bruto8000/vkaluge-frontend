@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import app from '../utils/app.js'
 
-Vue.component('form-utils',{
-    mounted(){
+Vue.prototype.$initForms = () =>{
+
+
       
         /*-----------------
     FORM INPUT
@@ -169,6 +170,5 @@ app.querySelector('.interactive-input', function (elements) {
     }
   }
 });
-    },
-    template: "<div></div>"
-})
+
+}
