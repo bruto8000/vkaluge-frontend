@@ -50,13 +50,14 @@ const router = new VueRouter({
 
 
 router.beforeEach(async(to, from, next) => {
+  console.log('start')
   let isLogged = await store.dispatch('checkLogged')
 if(to.path !='/auth' && !isLogged) next({ path: '/auth' })
 else{
   next()
 }
  
-
+console.log('end')
 
 
 })

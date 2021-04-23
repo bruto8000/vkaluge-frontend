@@ -26,21 +26,31 @@ return {
 
 
 
-    this.$router.beforeEach(async (to,from,next)=>{
+    this.$router.beforeEach( (to,from,next)=>{
 
       
   this.turnOnLoader();
-  this.$forceUpdate();
-setTimeout(() => {
-    next();
-    this.turnOffLoader();
-  }, 500);
+this.$forceUpdate();
 
+setTimeout(() => {
+  next();
+
+}, 500);
 
  
 
     })
+this.$router.afterEach( (to,from)=>{
+this.$forceUpdate();
 
+  
+  this.turnOffLoader();
+
+
+
+
+
+    })
    
   //  this.$router.push({ path: 'auth' })
   },
@@ -50,7 +60,12 @@ setTimeout(() => {
     }
   },
   mounted(){
-
+  
+      setTimeout(() => {
+        
+        this.turnOffLoader();
+        }, 500);
+  
   },
   methods:{
     turnOffLoader (){this.isNeedLoader = false } ,

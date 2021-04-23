@@ -52,6 +52,9 @@ export default {
   mounted() {
     // this.$initPageLoader();
   },
+  created(){
+// this.$forceUpdate();
+  },
   computed: {
     isLogged() {
       return this.$store ? this.$store.state.isLogged : false;

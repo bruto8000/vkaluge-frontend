@@ -3295,6 +3295,7 @@
 
 <script>
 export default {
+  
     data(){
         return {
             pageLoaderHidden: false
