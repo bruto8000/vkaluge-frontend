@@ -7,7 +7,7 @@ Vue.prototype.$initLanding = () =>{
 
 
 
-      app.plugins.createTab({
+   return   app.plugins.createTab({
     triggers: '.login-register-form-trigger',
     elements: '.login-register-form-element',
     animation: {

@@ -1,0 +1,11 @@
+.input-icon-validate{
+    display: none !important;
+}
+.vs-checkbox--check{
+    height: 24px !important;
+}
+
+.landing{
+    overflow-x: hidden;
+    overflow-y: auto;
+}

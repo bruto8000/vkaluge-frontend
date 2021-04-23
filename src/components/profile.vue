@@ -205,7 +205,7 @@
  
 
   <!-- NAVIGATION WIDGET -->
-  <nav id="navigation-widget-mobile" class="navigation-widget navigation-widget-mobile sidebar left hidden" data-simplebar>
+  <nav id="navigation-widget-mobile" class="navigation-widget navigation-widget-mobile sidebar left hidden">
     <!-- NAVIGATION WIDGET CLOSE BUTTON -->
     <div class="navigation-widget-close-button">
       <!-- NAVIGATION WIDGET CLOSE BUTTON ICON -->
@@ -3300,7 +3300,9 @@ export default {
             pageLoaderHidden: false
         }
     },
-     
+     created(){
+
+     },
 mounted(){
 
  

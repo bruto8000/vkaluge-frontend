@@ -1,9 +1,8 @@
 .DS_Store
 node_modules
 /dist
-public
-/public
-./public
+public/img
+
 
 
 # local env files

@@ -10,7 +10,7 @@
 
 <script>
 import pageLoader from "./components/pageLoader.vue" 
-
+import axios from "axios"
 export default {
   name: "App",
   components: {
@@ -18,18 +18,26 @@ export default {
   },
   data(){
 return {
-  isNeedLoader: false
+  isNeedLoader: true
 }
   },
   
   created(){
-    this.$router.beforeEach((to,from,next)=>{
-    //  this.turnOnLoader();
-   this.$nextTick()
-.then(z=>{
+
+
+
+    this.$router.beforeEach(async (to,from,next)=>{
+
+      
+  this.turnOnLoader();
+  this.$forceUpdate();
+setTimeout(() => {
     next();
-})
-  
+    this.turnOffLoader();
+  }, 500);
+
+
+ 
 
     })
 

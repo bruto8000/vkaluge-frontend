@@ -9,9 +9,7 @@
       <!-- LOGO -->
       <div class="logo">
         <!-- ICON LOGO VIKINGER -->
-        <svg class="icon-logo-vikinger">
-          <use xlink:href="#svg-logo-vikinger"></use>
-        </svg>
+        <img src="../assets/logo.png" style="width:30%" alt="" />
         <!-- /ICON LOGO VIKINGER -->
       </div>
       <!-- /LOGO -->
@@ -26,8 +24,8 @@
 
       <!-- LANDING INFO TEXT -->
       <p class="landing-info-text">
-        Новое поколение социальной сети и сообщества! Общайтесь с друзьями и
-        играйте с нашей системой геймификации квестов и значков!
+        Новое поколение социальной сети и сообщества! Очень надеемся сделать из
+        этого что-то годное и поднять на этом бабла
       </p>
       <!-- /LANDING INFO TEXT -->
 
@@ -50,11 +48,7 @@
       <!-- FORM BOX -->
       <div class="form-box login-register-form-element">
         <!-- FORM BOX DECORATION -->
-        <img
-          class="form-box-decoration overflowing"
-          src="img/landing/rocket.png"
-          alt="rocket"
-        />
+
         <!-- /FORM BOX DECORATION -->
 
         <!-- FORM BOX TITLE -->
@@ -66,40 +60,39 @@
           <!-- FORM ROW -->
           <div class="form-row">
             <!-- FORM ITEM -->
-            <div class="form-item">
-              <!-- FORM INPUT -->
-              <div class="form-input">
-                <label for="login-username">Логин :</label>
-                <input
-                  type="text"
-                  v-model="login.username"
-                  id="login-username"
-                  name="login_username"
-                />
-              </div>
-              <!-- /FORM INPUT -->
-            </div>
-            <!-- /FORM ITEM -->
+
+            <vs-input
+              style="width:100%"
+              danger-text="Номер должен быть в формате 89xx1234567"
+              :danger="
+                !!login.username.length && !number_regex.test(login.username)
+              "
+              icon-no-border
+              label-placeholder="Номер телефона"
+              type="text"
+              v-model.lazy="login.username"
+              id="login-username"
+              name="login_username"
+            ></vs-input>
           </div>
           <!-- /FORM ROW -->
 
           <!-- FORM ROW -->
           <div class="form-row">
             <!-- FORM ITEM -->
-            <div class="form-item">
-              <!-- FORM INPUT -->
-              <div class="form-input">
-                <label for="login-password">Пароль :</label>
-                <input
-                  type="password"
-                  v-model="login.password"
-                  id="login-password"
-                  name="login_password"
-                />
-              </div>
-              <!-- /FORM INPUT -->
-            </div>
-            <!-- /FORM ITEM -->
+
+            <vs-input
+              style="width:100%"
+              danger-text="Пароль долже сожержать заглавную, строчную буквы, цифры, и символ. "
+              :danger="
+                !!login.password.length && !password_regex.test(login.password)
+              "
+              label-placeholder="Пароль"
+              type="password"
+              v-model="login.password"
+              id="login-password"
+              name="login_password"
+            ></vs-input>
           </div>
           <!-- /FORM ROW -->
 
@@ -108,25 +101,14 @@
             <!-- FORM ITEM -->
             <div class="form-item">
               <!-- CHECKBOX WRAP -->
-              <div class="checkbox-wrap">
-                <input
-                  type="checkbox"
-                  id="login-remember"
-                  name="login_remember"
-                  v-model="login.remember"
-                  checked
-                />
-                <!-- CHECKBOX BOX -->
-                <div class="checkbox-box">
-                  <!-- ICON CROSS -->
-                  <svg class="icon-cross">
-                    <use xlink:href="#svg-cross"></use>
-                  </svg>
-                  <!-- /ICON CROSS -->
-                </div>
-                <!-- /CHECKBOX BOX -->
-                <label for="login-remember">Запомнить меня</label>
-              </div>
+
+              <vs-checkbox
+                v-model="login.remember"
+                icon-pack="mdi"
+                icon="mdi-check"
+                >Запомнить меня</vs-checkbox
+              >
+
               <!-- /CHECKBOX WRAP -->
             </div>
             <!-- /FORM ITEM -->
@@ -160,7 +142,6 @@
             <!-- /FORM ITEM -->
           </div>
           <!-- /FORM ROW -->
-        
         </form>
         <!-- /FORM -->
 
@@ -171,7 +152,7 @@
         <!-- SOCIAL LINKS -->
         <div class="social-links">
           <!-- SOCIAL LINK -->
-          <a class="social-link facebook" href="#">
+          <a class="social-link facebook">
             <!-- ICON FACEBOOK -->
             <svg class="icon-facebook">
               <use xlink:href="#svg-facebook"></use>
@@ -181,7 +162,7 @@
           <!-- /SOCIAL LINK -->
 
           <!-- SOCIAL LINK -->
-          <a class="social-link twitter" href="#">
+          <a class="social-link twitter">
             <!-- ICON TWITTER -->
             <svg class="icon-twitter">
               <use xlink:href="#svg-twitter"></use>
@@ -191,7 +172,7 @@
           <!-- /SOCIAL LINK -->
 
           <!-- SOCIAL LINK -->
-          <a class="social-link twitch" href="#">
+          <a class="social-link twitch">
             <!-- ICON TWITCH -->
             <svg class="icon-twitch">
               <use xlink:href="#svg-twitch"></use>
@@ -201,7 +182,7 @@
           <!-- /SOCIAL LINK -->
 
           <!-- SOCIAL LINK -->
-          <a class="social-link youtube" href="#">
+          <a class="social-link youtube">
             <!-- ICON YOUTUBE -->
             <svg class="icon-youtube">
               <use xlink:href="#svg-youtube"></use>
@@ -217,11 +198,7 @@
       <!-- FORM BOX -->
       <div class="form-box login-register-form-element">
         <!-- FORM BOX DECORATION -->
-        <img
-          class="form-box-decoration"
-          src="img/landing/rocket.png"
-          alt="rocket"
-        />
+
         <!-- /FORM BOX DECORATION -->
 
         <!-- FORM BOX TITLE -->
@@ -233,95 +210,74 @@
           <!-- FORM ROW -->
           <div class="form-row">
             <!-- FORM ITEM -->
-            <div class="form-item">
-              <!-- FORM INPUT -->
-              <div class="form-input">
-                <label for="register-email">Номер телефона :</label>
-                <input
-                  :disabled="register.sms_sended"
-                  v-model="register.username"
-                  placeholder="89001234567"
-                  type="text"
-                  id="register-email"
-                  name="register_email"
-                />
-              </div>
-              <!-- /FORM INPUT -->
-            </div>
-            <!-- /FORM ITEM -->
+
+            <vs-input
+              style="width:100%"
+              danger-text="Номер должен быть в формате 89xx1234567"
+              :danger="
+                !!register.username.length &&
+                  !number_regex.test(register.username)
+              "
+              icon-no-border
+              label-placeholder="Номер телефона"
+              type="text"
+              v-model.lazy="register.username"
+              :disabled="register.sms_sended"
+            ></vs-input>
+          </div>
+          <!-- FORM ROW -->
+          <div class="form-row">
+            <vs-input
+              style="width:100%"
+              danger-text="Пароль долже сожержать заглавную, строчную буквы, цифры, и символ. "
+              :danger="
+                !!register.password.length &&
+                  !password_regex.test(register.password)
+              "
+              label-placeholder="Пароль"
+              type="password"
+              v-model="register.password"
+              id="login-password"
+              name="login_password"
+              :disabled="register.sms_sended"
+            ></vs-input>
           </div>
           <!-- /FORM ROW -->
 
           <!-- FORM ROW -->
           <div class="form-row">
             <!-- FORM ITEM -->
-            <div class="form-item">
-              <!-- FORM INPUT -->
-              <div class="form-input">
-                <label for="register-password">Пароль :</label>
-                <input
-                pattern=""
-                  v-model="register.password"
-                  :disabled="register.sms_sended"
-                  type="password"
-                  id="register-password"
-                  name="register_password"
-                />
-              </div>
-              <!-- /FORM INPUT -->
-            </div>
-            <!-- /FORM ITEM -->
+
+            <vs-input
+              style="width:100%"
+              danger-text="Пароль долже сожержать заглавную, строчную буквы, цифры, и символ. "
+              :danger="
+                !!register.re_password.length &&
+                  !password_regex.test(register.re_password)
+              "
+              :disabled="register.sms_sended"
+              label-placeholder="Пароль"
+              type="password"
+              v-model="register.re_password"
+              id="login-password"
+              name="login_password"
+            ></vs-input>
           </div>
           <!-- /FORM ROW -->
 
           <!-- FORM ROW -->
           <div class="form-row">
             <!-- FORM ITEM -->
-            <div class="form-item">
-              <!-- FORM INPUT -->
-              <div class="form-input">
-                <label for="register-password-repeat">Повторите пароль :</label>
-                <input
-                  :disabled="register.sms_sended"
-                  v-model="register.re_password"
-                  type="password"
-                  id="register-password-repeat"
-                  name="register_password_repeat"
-                />
-              </div>
-              <!-- /FORM INPUT -->
-            </div>
-            <!-- /FORM ITEM -->
-          </div>
-          <!-- /FORM ROW -->
 
-          <!-- FORM ROW -->
-          <div class="form-row">
-            <!-- FORM ITEM -->
-            <div class="form-item">
-              <!-- CHECKBOX WRAP -->
-              <div class="checkbox-wrap">
-                <input
-                  type="checkbox"
-                  id="register-newsletter"
-                  name="register_newsletter"
-                  v-model="register.accept_rules"
-                  :disabled="register.sms_sended"
-                />
-                <!-- CHECKBOX BOX -->
-                <div class="checkbox-box">
-                  <!-- ICON CROSS -->
-                  <svg class="icon-cross">
-                    <use xlink:href="#svg-cross"></use>
-                  </svg>
-                  <!-- /ICON CROSS -->
-                </div>
-                <!-- /CHECKBOX BOX -->
-                <label for="register-newsletter">Я принимаю условия</label>
-              </div>
-              <!-- /CHECKBOX WRAP -->
-            </div>
-            <!-- /FORM ITEM -->
+            <vs-tooltip text="Пока не понятно какие, но мы что-то придумаем">
+              <vs-checkbox
+                v-model="register.accept_rules"
+                :disabled="register.sms_sended"
+                icon-pack="mdi"
+                icon="mdi-check"
+                >Принимаю условия</vs-checkbox
+              >
+            </vs-tooltip>
           </div>
           <!-- /FORM ROW -->
 
@@ -330,10 +286,11 @@
             <!-- FORM ITEM -->
             <div class="form-item">
               <!-- BUTTON -->
+
               <button
                 @click="requestSms"
                 :disabled="!canRegister || register.sms_sended"
-                class="button medium primary"
+                class="button medium primary vs-con-loading__container"
               >
                 Регистрация
               </button>
@@ -361,34 +318,27 @@
             <!-- FORM ROW -->
             <div class="form-row">
               <!-- FORM ITEM -->
-              <div class="form-item">
-                <!-- FORM INPUT -->
-                <div class="form-input">
-                  <label for="register-sms-confirm"
-                    >Введите код из сообщения:</label
-                  >
-                  <input
-                    v-model="register.sms_code"
-                    type="password"
-                    id="register-sms-confirm"
-                  />
-                </div>
 
-                <div class="form-input">
-                  <p class="form-text text-center ">
-                    Время: {{ register.timer_sec }}сек.
-                  </p>
-                </div>
-                <p
-                  class="form-text text-center "
-                  v-if="register.smsCodeInvalid"
-                >
-                  Смс код указан неверно, попробуйте еще раз.
-                </p>
-                <!-- /FORM INPUT -->
-              </div>
-              <!-- /FORM ITEM -->
+              <vs-input
+                style="width:100%"
+                label-placeholder="Номер телефона"
+                type="text"
+                v-model.lazy="register.sms_code"
+                id="login-username"
+                name="login_username"
+              ></vs-input>
             </div>
+
+            <div class="form-input">
+              <p class="form-text text-center ">
+                Время: {{ register.timer_sec }}сек.
+              </p>
+            </div>
+
+            <!-- /FORM INPUT -->
+
+            <!-- /FORM ITEM -->
+
             <!-- /FORM ROW -->
 
             <!-- FORM ROW -->
@@ -399,7 +349,7 @@
                 <button
                   @click="confirmSms"
                   :disabled="!canConfirmSms"
-                  class="button medium secondary"
+                  class="button medium secondary vs-con-loading__container"
                 >
                   Подтвердить
                 </button>
@@ -416,6 +366,9 @@
       <!-- /FORM BOX -->
     </div>
     <!-- /LANDING FORM -->
+
+
+     
   </div>
 </template>
 
@@ -426,14 +379,8 @@ export default {
   name: "auth",
 
   mounted() {
-  
-   
-
-       this.$initForms();
+    this.$initForms();
     this.$initLanding();
-
-
-
   },
   data() {
     return {
@@ -447,9 +394,9 @@ export default {
         invalidCredentials_timout: false,
       },
       register: {
-        username: "",
-        password: "",
-        re_password: "",
+        username: "89208868912",
+        password: "Aa123$",
+        re_password: "Aa123$",
         accept_rules: false,
         sms_code: "",
         sms_sended: false,
@@ -489,10 +436,23 @@ export default {
     },
   },
   methods: {
+    showLoading(element) {
+      this.$vs.loading({
+        background: "primary",
+        color: "#fff",
+        container: element,
+        scale: 0.45,
+      });
+    },
+    hideLoading(element) {
+      this.$vs.loading.close(element);
+    },
     async requestSms(event) {
+      console.log(event.target);
       console.log(this.$url + "/api/Account/Register");
-      event.preventDefault();
+      // event.preventDefault();
 
+      this.showLoading(event.target);
       let respFromServ = null;
 
       await axios({
@@ -504,24 +464,23 @@ export default {
           password: this.register.password,
           passwordConfirm: this.register.re_password,
         },
-      }).then(
-        (responce) => {
-          console.log("Успех", responce);
+      })
+        .then(
+          (responce) => {
+            console.log("Успех", responce);
 
-          this.register.sms_sended = true;
-          this.setSmsCodeWaitingIntervel();
-        },
-        (err) => {
-          console.log(err.response);
-      
-            this.$toast.open({
-        message: err.response.data.title,
-    type: 'error'
+            this.register.sms_sended = true;
+            this.setSmsCodeWaitingIntervel();
+          },
+          (err) => {
+            console.log(err.response);
 
-
-    }) 
-        }
-      );
+            this.showError(err.response.data.title);
+          }
+        )
+        .then((z) => {
+          this.hideLoading(event.target);
+        });
       return;
     },
     setSmsCodeWaitingIntervel() {
@@ -536,8 +495,8 @@ export default {
       }, 1000);
     },
     async confirmSms(event) {
-      
       event.preventDefault();
+      this.showLoading(event.target);
       console.log(this.$url + "/api/Account/Register");
       console.log("Отправляемые данные: ", {
         smsCode: this.register.sms_code,
@@ -560,11 +519,11 @@ export default {
           alert("Регистрация успешна!");
         })
         .catch((err) => {
-          this.$toast.error('Неверный код подтверждения')
+          this.showError("Неверный код подтверждения");
+
           console.log("ERROR CONFIRM SMS", err.message);
-
-
-        });
+        })
+        .finally(() => this.hideLoading(event.target));
 
       return;
     },
@@ -573,35 +532,36 @@ export default {
       console.log(this.$url + "/api/Account/Login");
       event.preventDefault();
 
-
-
- 
-        //         {
-        //   "phoneNumber": "string",
-        //   "password": "string",
-        //   "rememberMe": true,
-        //   "returnUrl": "string"
-        // }
-   await axios({
-          method: "POST",
-          url: this.$url + "/api/Account/Login",
-          data: {
-            phoneNumber: this.login.username,
-            year: 20,
-            password: this.login.password,
-            rememberMe: this.login.remember,
-            returnUrl: "",
-          },
-        }).then(result=>{
+      //         {
+      //   "phoneNumber": "string",
+      //   "password": "string",
+      //   "rememberMe": true,
+      //   "returnUrl": "string"
+      // }
+      await axios({
+        method: "POST",
+        url: this.$url + "/api/Account/Login",
+        data: {
+          phoneNumber: this.login.username,
+          year: 20,
+          password: this.login.password,
+          rememberMe: this.login.remember,
+          returnUrl: "",
+        },
+      })
+        .then((result) => {
+          console.log(result);
           console.log(result.data);
-             alert("Вход успешный!");
-        }).catch(err=>{
-          this.$toast.error('Неверные данные')
-        });
-      
+          alert("Вход успешный!");
 
-    }
- 
-  }
+        })
+        .catch((err) => {
+          this.showError("Неверные данные");
+        });
+    },
+    showError(text) {
+      this.$vs.notify({ title: "Ошибка", text: text, color: "danger" });
+    },
+  },
 };
 </script>
