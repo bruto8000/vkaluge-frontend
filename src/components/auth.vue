@@ -104,8 +104,7 @@
 
               <vs-checkbox
                 v-model="login.remember"
-                icon-pack="mdi"
-                icon="mdi-check"
+           
                 >Запомнить меня</vs-checkbox
               >
 
@@ -131,7 +130,7 @@
 
               <button
                 @click="requestLogin"
-                class="button medium secondary"
+                class="button medium secondary vs-con-loading__container"
                 :disabled="!canLogin"
               >
                 Войти
@@ -273,8 +272,7 @@
               <vs-checkbox
                 v-model="register.accept_rules"
                 :disabled="register.sms_sended"
-                icon-pack="mdi"
-                icon="mdi-check"
+               
                 >Принимаю условия</vs-checkbox
               >
             </vs-tooltip>
@@ -301,12 +299,7 @@
           <!-- /FORM ROW -->
 
           <!-- FORM TEXT -->
-          <p class="form-text text-center " v-if="!register.sms_sended">
-            Вы получите sms сообщение c кодом подтверждения.
-          </p>
-          <p class="form-text text-center " v-if="register.number_is_already">
-            Номер уже зарегестрирован в системе, попробуйте войти
-          </p>
+       
           <!-- /FORM TEXT -->
 
           <!-- AFTER SMS SENDED -->
@@ -377,18 +370,27 @@ import axios from "axios";
 
 export default {
   name: "auth",
-
+created(){
+if(this.isLogged){
+  this.$router.push({path:'/profile'})
+}else{
+  this.$emit('loaded')
+}
+},
   mounted() {
     this.$initForms();
     this.$initLanding();
+  
+    
+ 
   },
   data() {
     return {
       number_regex: /8\d{10}$/,
       password_regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
       login: {
-        username: "",
-        password: "",
+        username: "89201231212",
+        password: "Aa123$",
         remember: false,
         invalidCredentials: false,
         invalidCredentials_timout: false,
@@ -434,6 +436,9 @@ export default {
     canConfirmSms() {
       return this.register.sms_code.length;
     },
+    isLogged(){
+      return this.$store.state.isLogged
+    }
   },
   methods: {
     showLoading(element) {
@@ -453,7 +458,7 @@ export default {
       // event.preventDefault();
 
       this.showLoading(event.target);
-      let respFromServ = null;
+  
 
       await axios({
         method: "POST",
@@ -516,7 +521,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Регистрация успешна!");
+         this.$router.push({path: '/profile'})
         })
         .catch((err) => {
           this.showError("Неверный код подтверждения");
@@ -531,37 +536,51 @@ export default {
     async requestLogin(event) {
       console.log(this.$url + "/api/Account/Login");
       event.preventDefault();
-
+this.showLoading(event.target)
       //         {
       //   "phoneNumber": "string",
       //   "password": "string",
       //   "rememberMe": true,
       //   "returnUrl": "string"
       // }
-      await axios({
-        method: "POST",
-        url: this.$url + "/api/Account/Login",
-        data: {
+      this.$store.dispatch('tryLogin',{
           phoneNumber: this.login.username,
           year: 20,
           password: this.login.password,
           rememberMe: this.login.remember,
           returnUrl: "",
-        },
-      })
+        })
+    
         .then((result) => {
-          console.log(result);
-          console.log(result.data);
-          alert("Вход успешный!");
+      
+         
+       
+
+       this.$router.push({path:"/profile"})
 
         })
         .catch((err) => {
           this.showError("Неверные данные");
-        });
+     
+        }).finally(()=>{
+          this.hideLoading(event.target)
+        })
     },
     showError(text) {
       this.$vs.notify({ title: "Ошибка", text: text, color: "danger" });
     },
   },
+  watch : {
+  //   isLogged(n){
+  //     if (n===null) return;
+  //     if(n === false){
+  // this.$router.push({path:'/profile'})
+  //     }else{
+  //  this.$emit("loaded")
+
+  //     }
+      
+  //   }
+  }
 };
 </script>

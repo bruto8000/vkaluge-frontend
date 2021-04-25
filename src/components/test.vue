@@ -20,17 +20,23 @@
       label-placeholder="Логин" :danger='false' icon='sms' ></vs-input>
     </vs-col>
 </vs-row>
+
+<sidebar></sidebar>
     </div>
 
 </template>
 
 <script>
 import forminput from "./formInput"
+import sidebar from "./every/sidebar"
 export default {
 
-
+mounted(){
+this.$store.commit('setLoader',false)
+},
 components:{
-    forminput
+    forminput,
+    sidebar
 }
 }
 </script>

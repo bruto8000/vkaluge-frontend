@@ -169,54 +169,54 @@ app.querySelector('.content-grid', function (el) {
   /*-------------------------------
       NAVIGATION WIDGET MOBILE
   -------------------------------*/
-  app.querySelector('.navigation-widget-mobile-trigger', function (el) {
-    const navigationMobileTrigger = el[0],
-          navigationWidgetMobile = document.querySelector('#navigation-widget-mobile'),
-          navigationWidgetMobileCloseButton = navigationWidgetMobile.querySelector('.navigation-widget-close-button'),
-          hiddenClass = 'hidden';
+  // app.querySelector('.navigation-widget-mobile-trigger', function (el) {
+  //   const navigationMobileTrigger = el[0],
+  //         navigationWidgetMobile = document.querySelector('#navigation-widget-mobile'),
+  //         navigationWidgetMobileCloseButton = navigationWidgetMobile.querySelector('.navigation-widget-close-button'),
+  //         hiddenClass = 'hidden';
 
-    const overlay = document.createElement('div');
+  //   const overlay = document.createElement('div');
 
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.zIndex = 99998;
-    overlay.style.backgroundColor = 'rgba(21, 21, 31, .96)';
-    overlay.style.opacity = 0;
-    overlay.style.visibility = 'hidden';
-    overlay.style.transition = 'opacity .3s ease-in-out, visibility .3s ease-in-out';
+  //   overlay.style.width = '100%';
+  //   overlay.style.height = '100%';
+  //   overlay.style.position = 'fixed';
+  //   overlay.style.top = '0';
+  //   overlay.style.left = '0';
+  //   overlay.style.zIndex = 99998;
+  //   overlay.style.backgroundColor = 'rgba(21, 21, 31, .96)';
+  //   overlay.style.opacity = 0;
+  //   overlay.style.visibility = 'hidden';
+  //   overlay.style.transition = 'opacity .3s ease-in-out, visibility .3s ease-in-out';
 
-    document.body.appendChild(overlay);
+  //   document.body.appendChild(overlay);
 
-    const showOverlay = function () {
-      overlay.style.opacity = 1;
-      overlay.style.visibility = 'visible';
-    };
+  //   const showOverlay = function () {
+  //     overlay.style.opacity = 1;
+  //     overlay.style.visibility = 'visible';
+  //   };
 
-    const hideOverlay = function () {
-      overlay.style.opacity = 0;
-      overlay.style.visibility = 'hidden';
-    };
+  //   const hideOverlay = function () {
+  //     overlay.style.opacity = 0;
+  //     overlay.style.visibility = 'hidden';
+  //   };
   
-    const setNavigationWidgetMobileDimensions = function () {
-      navigationWidgetMobile.style.height = `${window.innerHeight}px`;
-    };
+  //   const setNavigationWidgetMobileDimensions = function () {
+  //     navigationWidgetMobile.style.height = `${window.innerHeight}px`;
+  //   };
   
-    const toggleNavigationWidgetMobile = function () {
-      navigationWidgetMobile.classList.toggle(hiddenClass);
+  //   const toggleNavigationWidgetMobile = function () {
+  //     navigationWidgetMobile.classList.toggle(hiddenClass);
 
-      const toggleOverlay = navigationWidgetMobile.classList.contains(hiddenClass) ? hideOverlay : showOverlay;
-      toggleOverlay();
-    };
+  //     const toggleOverlay = navigationWidgetMobile.classList.contains(hiddenClass) ? hideOverlay : showOverlay;
+  //     toggleOverlay();
+  //   };
   
-    navigationMobileTrigger.addEventListener('click', toggleNavigationWidgetMobile);
-    navigationWidgetMobileCloseButton.addEventListener('click', toggleNavigationWidgetMobile);
-    overlay.addEventListener('click', toggleNavigationWidgetMobile);
+  //   navigationMobileTrigger.addEventListener('click', toggleNavigationWidgetMobile);
+  //   navigationWidgetMobileCloseButton.addEventListener('click', toggleNavigationWidgetMobile);
+  //   overlay.addEventListener('click', toggleNavigationWidgetMobile);
   
-    setNavigationWidgetMobileDimensions();
-    window.addEventListener('resize', setNavigationWidgetMobileDimensions);
-  });
+  //   setNavigationWidgetMobileDimensions();
+  //   window.addEventListener('resize', setNavigationWidgetMobileDimensions);
+  // });
 });
 }

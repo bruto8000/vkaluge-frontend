@@ -1,90 +1,73 @@
 <template>
   <div id="app">
-
-
-      <page-loader :show="isNeedLoader"></page-loader>
-    <router-view @loaded="turnOffLoader"></router-view>
+    <page-loader :show="isNeedLoader"></page-loader>
+    <router-view v-if="isLogged !== null" @loaded="turnOffLoader"></router-view>
 
   </div>
 </template>
 
 <script>
-import pageLoader from "./components/pageLoader.vue" 
-import axios from "axios"
+import pageLoader from "./components/pageLoader.vue";
+import axios from "axios";
 export default {
   name: "App",
-  components: {
+  components: {},
+  data() {
+    return {
   
+    };
   },
-  data(){
-return {
-  isNeedLoader: true
-}
+
+  created() {
+    this.turnOnLoader();
+
+    this.$store.dispatch("tryAuth").then((isLogged) => {
+      console.log('app is mexavor')
+      if (!isLogged) this.$router.replace({ path: "/auth" });
+      this.$store.commit("setLogged", isLogged);
+    });
+
+    this.$router.beforeEach((to, from, next) => {
+      this.turnOnLoader();
+
+      setTimeout(() => {
+        next();
+      }, 500);
+    });
   },
+  mounted() {},
+  computed: {
   
-  created(){
-
-
-
-    this.$router.beforeEach( (to,from,next)=>{
-
-      
-  this.turnOnLoader();
-this.$forceUpdate();
-
-setTimeout(() => {
-  next();
-
-}, 500);
-
- 
-
-    })
-this.$router.afterEach( (to,from)=>{
-this.$forceUpdate();
-
-  
-  this.turnOffLoader();
-
-
-
-
-
-    })
-   
-  //  this.$router.push({ path: 'auth' })
+    isLogged() {
+      return this.$store.state.isLogged;
+    },
+        isNeedLoader(){
+         return this.$store.state.isNeedLoader;
+    }
   },
   methods: {
-    log(a){
-      console.log(a)
-    }
-  },
-  mounted(){
-  
-      setTimeout(() => {
-        
-        this.turnOffLoader();
-        }, 500);
-  
-  },
-  methods:{
-    turnOffLoader (){this.isNeedLoader = false } ,
-    turnOnLoader (){  this.isNeedLoader = true}
-    
+    turnOffLoader() {
+            this.$store.commit('setLoader', false)
+      // this.isNeedLoader = false;
+    },
+    turnOnLoader() {
+      this.$store.commit('setLoader', true)
+      // this.isNeedLoader = true;
+    },
   },
   components: {
-    pageLoader
+    pageLoader,
   },
   watch: {
-    isNeedLoader(){
-      console.log('changed')
-    }
+    isNeedLoader() {
+ 
+    },
   },
-  updated(){
-    console.log('updated')
-this.$initLiquidify()
- this.$initGlobalHexagons();
-  }
+  updated() {
+    console.log("updatedApp");
+    this.$initLiquidify();
+    this.$initGlobalHexagons();
+  },
 };
 </script>
 

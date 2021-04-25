@@ -2,7 +2,7 @@ import Vue from "vue";
 
 Vue.prototype.$url = "";
 import store from "./store.js";
-import VueRouter from "vue-router";
+
 
 import Vuesax from "vuesax";
 import vuex from "vuex";
@@ -15,8 +15,8 @@ import componentsList from "./globalComponentList.js";
 Object.keys(componentsList).forEach((key) => {
   Vue.component(key, componentsList[key]);
 });
+import('material-design-icons-iconfont')
 
-Vue.use(VueRouter);
 Vue.config.productionTip = false;
 
 
@@ -39,30 +39,17 @@ import "./initcomponents/content/content.js";
 // "Компонентом" может быть как конструктор компонента, созданный
 // через `Vue.extend()`, так и просто объект с опциями компонента.
 // Мы поговорим о вложенных маршрутах позднее.
-import routes from "./routes.js";
+import router from "./router.js";
 
 // 3. Создаём экземпляр маршрутизатора и передаём маршруты в опции `routes`
 // Вы можете передавать и дополнительные опции, но пока не будем усложнять.
-const router = new VueRouter({
-  routes, // сокращённая запись для `routes: routes`
-});
 
 
 
-router.beforeEach(async(to, from, next) => {
-  console.log('start')
-  let isLogged = await store.dispatch('checkLogged')
-if(to.path !='/auth' && !isLogged) next({ path: '/auth' })
-else{
-  next()
-}
- 
 console.log('end')
 
-
-})
-new Vue({
+ new Vue({
   router,
-
+store,
   render: (h) => h(App),
 }).$mount("#app");

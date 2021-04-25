@@ -21,11 +21,11 @@
     <!-- PAGE LOADER INFO -->
     <div class="page-loader-info">
       <!-- PAGE LOADER INFO TITLE -->
-      <p class="page-loader-info-title">Vikinger</p>
+      <p class="page-loader-info-title">VKaluge</p>
       <!-- /PAGE LOADER INFO TITLE -->
 
       <!-- PAGE LOADER INFO TEXT -->
-      <p class="page-loader-info-text">Loading...</p>
+      <p class="page-loader-info-text">Загрузка...</p>
       <!-- /PAGE LOADER INFO TEXT -->
     </div>
     <!-- /PAGE LOADER INFO -->
