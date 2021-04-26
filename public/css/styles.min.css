@@ -1355,9 +1355,9 @@ h4,
 h5,
 h6,
 p {
-  color: #3e3f5e;
+  /* color: #3e3f5e;
   font-family: Rajdhani, sans-serif;
-  line-height: 1em;
+  line-height: 1em; */
 }
 h1,
 h2,
@@ -7331,11 +7331,11 @@ figure > img {
   top: 50%;
   left: 0;
 }
-.landing-form .form-box:first-child {
+/* .landing-form .form-box:first-child {
   margin-top: -313px;
-}
-.landing-form .form-box:last-child {
-  margin-top: -370px;
+} */
+.landing-form .form-box {
+  margin-top: -320px;
 }
 @media screen and (min-width: 2560px) {
   .landing-info {

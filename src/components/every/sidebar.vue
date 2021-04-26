@@ -1,5 +1,5 @@
 <template>
-  <vs-sidebar v-model="valueFromParent" parent="body">
+  <vs-sidebar v-model="valueFromParent" parent="body" position-right='right'>
     <div class="dropdown-navigation header-settings-dropdown">
       <!-- DROPDOWN NAVIGATION HEADER -->
       <div class="dropdown-navigation-header" slot="header">

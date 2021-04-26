@@ -14,8 +14,8 @@ module.exports = {
         },
   
       // disableHostCheck: true,
-      hot: false,
-      // hotOnly: true,
+      hot: true,
+  hotOnly: true,
       https: true,
     }
   }

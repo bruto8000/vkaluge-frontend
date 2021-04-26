@@ -37,8 +37,16 @@
 
         <!-- TAB SWITCH BUTTON -->
         <p class="tab-switch-button login-register-form-trigger">Регистрация</p>
+
         <!-- /TAB SWITCH BUTTON -->
       </div>
+      <p
+        class="tab-switch-button login-register-form-trigger"
+        ref="forgotPasswordButton"
+        style="display: none"
+      >
+        Забыли пароль
+      </p>
       <!-- /TAB SWITCH -->
     </div>
     <!-- /LANDING INFO -->
@@ -60,20 +68,7 @@
           <!-- FORM ROW -->
           <div class="form-row">
             <!-- FORM ITEM -->
-
-            <vs-input
-              style="width:100%"
-              danger-text="Номер должен быть в формате 89xx1234567"
-              :danger="
-                !!login.username.length && !number_regex.test(login.username)
-              "
-              icon-no-border
-              label-placeholder="Номер телефона"
-              type="text"
-              v-model.lazy="login.username"
-              id="login-username"
-              name="login_username"
-            ></vs-input>
+            <inputTel :value.sync="login.username"> </inputTel>
           </div>
           <!-- /FORM ROW -->
 
@@ -81,18 +76,7 @@
           <div class="form-row">
             <!-- FORM ITEM -->
 
-            <vs-input
-              style="width:100%"
-              danger-text="Пароль долже сожержать заглавную, строчную буквы, цифры, и символ. "
-              :danger="
-                !!login.password.length && !password_regex.test(login.password)
-              "
-              label-placeholder="Пароль"
-              type="password"
-              v-model="login.password"
-              id="login-password"
-              name="login_password"
-            ></vs-input>
+            <input-pass :value.sync="login.password"></input-pass>
           </div>
           <!-- /FORM ROW -->
 
@@ -102,11 +86,7 @@
             <div class="form-item">
               <!-- CHECKBOX WRAP -->
 
-              <vs-checkbox
-                v-model="login.remember"
-           
-                >Запомнить меня</vs-checkbox
-              >
+              <vs-checkbox v-model="login.remember">Запомнить меня</vs-checkbox>
 
               <!-- /CHECKBOX WRAP -->
             </div>
@@ -115,7 +95,12 @@
             <!-- FORM ITEM -->
             <div class="form-item">
               <!-- FORM LINK -->
-              <!-- <a class="form-link" href="#">Забыли пароль?</a> -->
+              <button
+                class=" px-1 py-0 my-0 button secondary"
+                @click="openForgotPasswordTab"
+              >
+                Забыли пароль?
+              </button>
               <!-- /FORM LINK -->
             </div>
             <!-- /FORM ITEM -->
@@ -210,57 +195,30 @@
           <div class="form-row">
             <!-- FORM ITEM -->
 
-            <vs-input
-              style="width:100%"
-              danger-text="Номер должен быть в формате 89xx1234567"
-              :danger="
-                !!register.username.length &&
-                  !number_regex.test(register.username)
-              "
-              icon-no-border
-              label-placeholder="Номер телефона"
-              type="text"
-              v-model.lazy="register.username"
+            <inputTel
+              :value.sync="register.username"
               :disabled="register.sms_sended"
-            ></vs-input>
+            >
+            </inputTel>
           </div>
           <!-- FORM ROW -->
           <div class="form-row">
-            <vs-input
-              style="width:100%"
-              danger-text="Пароль долже сожержать заглавную, строчную буквы, цифры, и символ. "
-              :danger="
-                !!register.password.length &&
-                  !password_regex.test(register.password)
-              "
-              label-placeholder="Пароль"
-              type="password"
-              v-model="register.password"
-              id="login-password"
-              name="login_password"
+            <input-pass
               :disabled="register.sms_sended"
-            ></vs-input>
+              :value.sync="register.password"
+            ></input-pass>
           </div>
+
           <!-- /FORM ROW -->
 
           <!-- FORM ROW -->
           <div class="form-row">
             <!-- FORM ITEM -->
-
-            <vs-input
-              style="width:100%"
-              danger-text="Пароль долже сожержать заглавную, строчную буквы, цифры, и символ. "
-              :danger="
-                !!register.re_password.length &&
-                  !password_regex.test(register.re_password)
-              "
+            <input-pass
               :disabled="register.sms_sended"
-              label-placeholder="Пароль"
-              type="password"
-              v-model="register.re_password"
-              id="login-password"
-              name="login_password"
-            ></vs-input>
+              :value.sync="register.re_password"
+              label="Повтор пароля"
+            ></input-pass>
           </div>
           <!-- /FORM ROW -->
 
@@ -272,7 +230,6 @@
               <vs-checkbox
                 v-model="register.accept_rules"
                 :disabled="register.sms_sended"
-               
                 >Принимаю условия</vs-checkbox
               >
             </vs-tooltip>
@@ -299,7 +256,7 @@
           <!-- /FORM ROW -->
 
           <!-- FORM TEXT -->
-       
+
           <!-- /FORM TEXT -->
 
           <!-- AFTER SMS SENDED -->
@@ -314,11 +271,9 @@
 
               <vs-input
                 style="width:100%"
-                label-placeholder="Номер телефона"
+                label-placeholder="Код подтверждения"
                 type="text"
-                v-model.lazy="register.sms_code"
-                id="login-username"
-                name="login_username"
+                v-model="forgot.sms_code"
               ></vs-input>
             </div>
 
@@ -356,33 +311,191 @@
         </form>
         <!-- /FORM -->
       </div>
+
+      <!-- FORM BOX -->
+      <div class="form-box login-register-form-element">
+        <!-- FORM BOX DECORATION -->
+
+        <!-- /FORM BOX DECORATION -->
+
+        <!-- FORM BOX TITLE -->
+        <h2 class="form-box-title">Забыли пароль</h2>
+        <!-- /FORM BOX TITLE -->
+
+        <!-- FORM -->
+        <form class="form" action="javascript:void(0);">
+          <!-- FORM ROW -->
+          <div class="form-row">
+            <!-- FORM ITEM -->
+
+            <input-tel
+              :disabled="forgot.sms_sended || forgot.sms_confirmed"
+              :value.sync="forgot.username"
+            ></input-tel>
+          </div>
+          <!-- FORM ROW -->
+          <div class="form-row">
+            <button
+              @click="requestSmsForPasswordChange"
+              :disabled="
+                !canRequestSmsForPasswordChange ||
+                  forgot.sms_sended ||
+                  forgot.sms_confirmed
+              "
+              class="button medium primary vs-con-loading__container"
+            >
+              Запросить смс
+            </button>
+          </div>
+          <!-- /FORM ROW -->
+
+          <!-- FORM ROW -->
+
+          <!-- /FORM ROW -->
+
+          <!-- FORM ROW -->
+          <div class="form-row">
+            <!-- FORM ITEM -->
+            <div class="form-item">
+              <!-- BUTTON -->
+
+              <!-- /BUTTON -->
+            </div>
+            <!-- /FORM ITEM -->
+          </div>
+          <!-- /FORM ROW -->
+
+          <!-- FORM ROW -->
+
+          <!-- /FORM ROW -->
+
+          <!-- FORM TEXT -->
+
+          <!-- /FORM TEXT -->
+
+          <!-- AFTER SMS SENDED -->
+          <template v-if="forgot.sms_sended">
+            <!-- FORM TEXT -->
+
+            <!-- /FORM TEXT -->
+
+            <!-- FORM ROW -->
+            <div class="form-row">
+              <!-- FORM ITEM -->
+
+              <vs-input
+                style="width:100%"
+                label-placeholder="Код подтверждения"
+                type="text"
+                :disabled="forgot.sms_confirmed"
+                v-model.lazy="forgot.sms_code"
+              ></vs-input>
+            </div>
+
+            <div class="form-input">
+              <p class="form-text text-center ">
+                Время: {{ forgot.timer_sec }}сек.
+              </p>
+            </div>
+
+            <!-- /FORM INPUT -->
+
+            <!-- /FORM ITEM -->
+
+            <!-- /FORM ROW -->
+
+            <!-- FORM ROW -->
+            <div class="form-row">
+              <!-- FORM ITEM -->
+              <div class="form-item">
+                <!-- BUTTON -->
+                <button
+                  @click="confirmSmsForPasswordChange"
+                  :disabled="
+                    !canConfirmSmsForPasswordChange || forgot.sms_confirmed
+                  "
+                  class="button medium secondary vs-con-loading__container"
+                >
+                  Подтвердить
+                </button>
+                <!-- /BUTTON -->
+              </div>
+              <!-- /FORM ITEM -->
+            </div>
+
+            <!-- /FORM ROW -->
+          </template>
+
+          <template v-if="forgot.sms_confirmed">
+            <!-- FORM TEXT -->
+
+            <!-- /FORM TEXT -->
+
+            <!-- FORM ROW -->
+            <div class="form-row">
+              <!-- FORM ITEM -->
+
+              <input-pass :value.sync="forgot.password"></input-pass>
+            </div>
+
+            <!-- /FORM INPUT -->
+
+            <!-- /FORM ITEM -->
+
+            <!-- /FORM ROW -->
+
+            <!-- FORM ROW -->
+            <div class="form-row">
+              <!-- FORM ITEM -->
+              <div class="form-item">
+                <!-- BUTTON -->
+                <input-pass :value.sync="forgot.re_password" label="Повторите пароль"></input-pass>
+
+                <!-- /BUTTON -->
+              </div>
+              <!-- /FORM ITEM -->
+            </div>
+            <div class="form-row">
+              <!-- FORM ITEM -->
+              <div class="form-item">
+                <button
+                  @click="changePassword"
+                  :disabled="!canPasswordChange"
+                  class="button medium secondary vs-con-loading__container"
+                >
+                  Сменить пароль
+                </button>
+              </div>
+              <!-- /FORM ITEM -->
+            </div>
+
+            <!-- /FORM ROW -->
+          </template>
+        </form>
+        <!-- /FORM -->
+      </div>
       <!-- /FORM BOX -->
     </div>
     <!-- /LANDING FORM -->
-
-
-     
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import InputPass from "./every/inputPass.vue";
 
 export default {
   name: "auth",
-created(){
-if(this.isLogged){
-  this.$router.push({path:'/profile'})
-}else{
-  this.$emit('loaded')
-}
-},
+  created() {
+    if (this.isLogged) {
+      this.$router.push({ path: "/profile" });
+    } else {
+      this.$emit("loaded");
+    }
+  },
   mounted() {
     this.$initForms();
-    this.$initLanding();
-  
-    
- 
+    console.log(this.$initLanding());
   },
   data() {
     return {
@@ -404,16 +517,21 @@ if(this.isLogged){
         sms_sended: false,
         timer: null,
         timer_sec: 60,
-        number_is_already: false,
-        smsCodeInvalid_timeout: false,
-        smsCodeInvalid: false,
-
-        number_is_already_timeout: false,
+      },
+      forgot: {
+        username: "89208868912",
+        password: "Aa123$",
+        re_password: "Aa123$",
+        sms_code: "",
+        sms_sended: false,
+        timer: null,
+        timer_sec: 60,
+        sms_confirmed: false,
       },
     };
   },
 
-  components: {},
+  components: { InputPass },
   computed: {
     canLogin() {
       return !!(
@@ -436,9 +554,21 @@ if(this.isLogged){
     canConfirmSms() {
       return this.register.sms_code.length;
     },
-    isLogged(){
-      return this.$store.state.isLogged
-    }
+    isLogged() {
+      return this.$store.state.isLogged;
+    },
+    canRequestSmsForPasswordChange() {
+      return this.number_regex.test(this.forgot.username);
+    },
+    canConfirmSmsForPasswordChange() {
+      return this.forgot.sms_code.length;
+    },
+    canPasswordChange() {
+      return (
+        this.password_regex.test(this.forgot.password) &&
+        this.forgot.re_password === this.forgot.password
+      );
+    },
   },
   methods: {
     showLoading(element) {
@@ -458,7 +588,6 @@ if(this.isLogged){
       // event.preventDefault();
 
       this.showLoading(event.target);
-  
 
       await axios({
         method: "POST",
@@ -475,7 +604,7 @@ if(this.isLogged){
             console.log("Успех", responce);
 
             this.register.sms_sended = true;
-            this.setSmsCodeWaitingIntervel();
+            this.setSmsCodeWaitingInterval(this.register);
           },
           (err) => {
             console.log(err.response);
@@ -488,14 +617,52 @@ if(this.isLogged){
         });
       return;
     },
-    setSmsCodeWaitingIntervel() {
-      this.$nextTick(() => this.$initForms());
-      this.register.timer_sec = 59;
-      this.register.timer = setInterval(() => {
-        this.register.timer_sec--;
-        if (this.register.timer_sec == 0) {
-          clearInterval(this.register.timer);
-          this.register.sms_sended = false;
+    async requestSmsForPasswordChange(event) {
+      console.log(event.target);
+      console.log(this.$url + "/api/Account/ForgotPassword");
+      // event.preventDefault();
+
+      this.showLoading(event.target);
+
+      await axios({
+        method: "POST",
+        url: this.$url + "/api/Account/ForgotPassword",
+        data: {
+          phoneNumber: this.forgot.username,
+        },
+      })
+        .then(
+          (responce) => {
+            console.log("Успех", responce);
+this.forgot.password = ''
+this.forgot.re_password = ''
+            this.forgot.sms_sended = true;
+            this.setSmsCodeWaitingInterval(this.forgot,()=>{
+              this.$vs.notify({title:"Время вышло",color:'red', text: "Пароль можно поменять в течении одной минуты."})
+            });
+          },
+          (err) => {
+            console.log(err.response);
+
+            this.showError(err.response.data.title);
+          }
+        )
+        .finally((z) => {
+          this.hideLoading(event.target);
+        });
+      return;
+    },
+    setSmsCodeWaitingInterval(tab,cb) {
+      tab.timer_sec = 59;
+      tab.timer = setInterval(() => {
+        tab.timer_sec--;
+        if (tab.timer_sec == 0) {
+   
+          clearInterval(tab.timer);
+          
+          tab.sms_sended = false;
+          tab.sms_confirmed = false;
+                 cb();
         }
       }, 1000);
     },
@@ -521,7 +688,8 @@ if(this.isLogged){
         },
       })
         .then(() => {
-         this.$router.push({path: '/profile'})
+          this.$store.commit("setLogged", true);
+          this.$router.push({ path: "/profile" });
         })
         .catch((err) => {
           this.showError("Неверный код подтверждения");
@@ -532,55 +700,103 @@ if(this.isLogged){
 
       return;
     },
+    async confirmSmsForPasswordChange(event) {
+      event.preventDefault();
+      this.showLoading(event.target);
+      console.log({
+        smsCode: Number(this.forgot.sms_code),
+        phoneNumber: this.forgot.username,
+      });
+      await axios({
+        method: "POST",
+        url: this.$url + "/api/Account/VerificationForChangePass",
+        data: {
+          smsCode: Number(this.forgot.sms_code),
+          phoneNumber: this.forgot.username,
+        },
+      })
+        .then((r) => {
+          console.log(r.data);
+          this.forgot.sms_sended = false;
+          this.forgot.sms_confirmed = true;
+        })
+        .catch((err) => {
+          this.showError("Неверный код подтверждения");
 
+          console.log("ERROR CONFIRM SMS", err.message);
+        })
+        .finally(() => this.hideLoading(event.target));
+
+      return;
+    },
+    async changePassword(event) {
+      event.preventDefault();
+      this.showLoading(event.target);
+      await axios({
+        method: "POST",
+        url: this.$url + "/api/Account/ChangePassword",
+        data: {
+          phoneNumber: this.forgot.username,
+          password: this.forgot.password,
+          passwordConfirm: this.forgot.re_password,
+        },
+      })
+        .then(() => {
+          this.forgot.sms_sended = false;
+          this.forgot.sms_confirmed = false;
+          this.forgot.username = "";
+          this.forgot.password = "";
+          this.forgot.re_password = "";
+          this.$vs.notify({
+            title: "Успех",
+            text: "Вы успешно сменили пароль.",
+          });
+        })
+        .catch((err) => {
+          this.showError("Неверный код подтверждения");
+
+          console.log("ERROR CONFIRM SMS", err.message);
+        })
+        .finally(() => this.hideLoading(event.target));
+    },
     async requestLogin(event) {
       console.log(this.$url + "/api/Account/Login");
       event.preventDefault();
-this.showLoading(event.target)
+      this.showLoading(event.target);
       //         {
       //   "phoneNumber": "string",
       //   "password": "string",
       //   "rememberMe": true,
       //   "returnUrl": "string"
       // }
-      this.$store.dispatch('tryLogin',{
+      this.$store
+        .dispatch("tryLogin", {
           phoneNumber: this.login.username,
           year: 20,
           password: this.login.password,
           rememberMe: this.login.remember,
           returnUrl: "",
         })
-    
+
         .then((result) => {
-      
-         
-       
-
-       this.$router.push({path:"/profile"})
-
+          this.$router.push({ path: "/profile" });
         })
         .catch((err) => {
           this.showError("Неверные данные");
-     
-        }).finally(()=>{
-          this.hideLoading(event.target)
         })
+        .finally(() => {
+          this.hideLoading(event.target);
+        });
     },
     showError(text) {
       this.$vs.notify({ title: "Ошибка", text: text, color: "danger" });
     },
+    openForgotPasswordTab(event) {
+      event.preventDefault();
+      this.$refs.forgotPasswordButton.click();
+    },
   },
-  watch : {
-  //   isLogged(n){
-  //     if (n===null) return;
-  //     if(n === false){
-  // this.$router.push({path:'/profile'})
-  //     }else{
-  //  this.$emit("loaded")
-
-  //     }
-      
-  //   }
-  }
+  watch: {},
+  comments: {},
 };
 </script>

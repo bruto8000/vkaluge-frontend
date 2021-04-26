@@ -165,11 +165,11 @@
           <!-- /UPLOAD BOX ICON -->
 
           <!-- UPLOAD BOX TITLE -->
-          <p class="upload-box-title">Change Avatar</p>
+          <p class="upload-box-title">Сменить аватар</p>
           <!-- /UPLOAD BOX TITLE -->
 
           <!-- UPLOAD BOX TEXT -->
-          <p class="upload-box-text">110x110px size minimum</p>
+          <p class="upload-box-text"></p>
           <!-- /UPLOAD BOX TEXT -->
         </div>
         <!-- /UPLOAD BOX -->
@@ -183,11 +183,11 @@
           <!-- /UPLOAD BOX ICON -->
 
           <!-- UPLOAD BOX TITLE -->
-          <p class="upload-box-title">Change Cover</p>
+          <p class="upload-box-title">Сменть фон</p>
           <!-- /UPLOAD BOX TITLE -->
 
           <!-- UPLOAD BOX TEXT -->
-          <p class="upload-box-text">1184x300px size minimum</p>
+          <p class="upload-box-text"></p>
           <!-- /UPLOAD BOX TEXT -->
         </div>
         <!-- /UPLOAD BOX -->
