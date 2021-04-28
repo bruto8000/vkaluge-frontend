@@ -17,7 +17,7 @@ const routes = [
     children: [
       { path: "info", component: myInfo },
       { path: "edit", component: editMe },
-      { path: "", component: editMe },
+
       { path: "*", redirect: "/info" },
     ],
   },

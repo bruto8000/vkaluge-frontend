@@ -95,12 +95,15 @@
             <!-- FORM ITEM -->
             <div class="form-item">
               <!-- FORM LINK -->
-              <button
-                class=" px-1 py-0 my-0 button secondary"
+   
+
+              <a
+                class="link-primary is-clickable"
                 @click="openForgotPasswordTab"
               >
                 Забыли пароль?
-              </button>
+              </a>
+       
               <!-- /FORM LINK -->
             </div>
             <!-- /FORM ITEM -->
@@ -273,7 +276,7 @@
                 style="width:100%"
                 label-placeholder="Код подтверждения"
                 type="text"
-                v-model="forgot.sms_code"
+                v-model="register.sms_code"
               ></vs-input>
             </div>
 
@@ -741,12 +744,14 @@ this.forgot.re_password = ''
           passwordConfirm: this.forgot.re_password,
         },
       })
-        .then(() => {
+        .then((res) => {
+          console.log(res.data)
           this.forgot.sms_sended = false;
           this.forgot.sms_confirmed = false;
           this.forgot.username = "";
           this.forgot.password = "";
           this.forgot.re_password = "";
+          clearTimeout(this.forgot.timer);
           this.$vs.notify({
             title: "Успех",
             text: "Вы успешно сменили пароль.",
