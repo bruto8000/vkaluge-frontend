@@ -28,7 +28,7 @@
 
 <script>
 import forminput from "./formInput"
-import sidebar from "./every/sidebar"
+
 export default {
 
 mounted(){
